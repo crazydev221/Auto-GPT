@@ -68,7 +68,7 @@ class XMLParser(ParserStrategy):
 class YAMLParser(ParserStrategy):
     def read(self, file_path: Path) -> str:
         with open(file_path, "r") as f:
-            data = yaml.load(f, Loader=yaml.FullLoader)
+            data = yaml.load(f, Loader=yaml.SafeLoader)
             text = str(data)
         return text
 

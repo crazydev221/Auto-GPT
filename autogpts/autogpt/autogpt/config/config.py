@@ -364,7 +364,7 @@ class ConfigBuilder(Configurable[Config]):
             Dict
         """
         with open(config_file) as file:
-            config_params = yaml.load(file, Loader=yaml.FullLoader) or {}
+            config_params = yaml.load(file, Loader=yaml.SafeLoader) or {}
 
         return {
             "openai_api_type": config_params.get("azure_api_type", "azure"),
