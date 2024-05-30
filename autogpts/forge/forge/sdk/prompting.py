@@ -64,7 +64,7 @@ class PromptEngine:
             if self.debug_enabled:
                 LOG.debug(f"Using the closest match model for prompts: {self.model}")
 
-            self.env = Environment(loader=FileSystemLoader(models_dir))
+            self.env = Environment(loader=FileSystemLoader(models_dir), autoescape=True)
         except Exception as e:
             LOG.error(f"Error initializing Environment: {e}")
             raise
