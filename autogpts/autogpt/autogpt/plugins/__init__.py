@@ -17,6 +17,7 @@ import openapi_python_client
 import requests
 from auto_gpt_plugin_template import AutoGPTPluginTemplate
 from openapi_python_client.config import Config as OpenAPIConfig
+from security import safe_requests
 
 if TYPE_CHECKING:
     from autogpt.config import Config
@@ -74,7 +75,7 @@ def fetch_openai_plugins_manifest_and_spec(config: Config) -> dict:
         create_directory_if_not_exists(openai_plugin_client_dir)
         if not os.path.exists(f"{openai_plugin_client_dir}/ai-plugin.json"):
             try:
-                response = requests.get(f"{url}/.well-known/ai-plugin.json")
+                response = safe_requests.get(f"{url}/.well-known/ai-plugin.json")
                 if response.status_code == 200:
                     manifest = response.json()
                     if manifest["schema_version"] != "v1":
