@@ -1,5 +1,5 @@
-import random
 import string
+import secrets
 
 
 def generate_password(length: int) -> str:
@@ -8,16 +8,16 @@ def generate_password(length: int) -> str:
 
     characters = string.ascii_letters + string.digits + string.punctuation
     password = [
-        random.choice(string.ascii_lowercase),
-        random.choice(string.ascii_uppercase),
-        random.choice(string.digits),
-        random.choice(string.punctuation),
+        secrets.choice(string.ascii_lowercase),
+        secrets.choice(string.ascii_uppercase),
+        secrets.choice(string.digits),
+        secrets.choice(string.punctuation),
     ]
-    password += [random.choice(characters) for _ in range(length - 4)]
-    random.shuffle(password)
+    password += [secrets.choice(characters) for _ in range(length - 4)]
+    secrets.SystemRandom().shuffle(password)
     return "".join(password)
 
 
 if __name__ == "__main__":
-    password_length = random.randint(8, 16)
+    password_length = secrets.SystemRandom().randint(8, 16)
     print(generate_password(password_length))
