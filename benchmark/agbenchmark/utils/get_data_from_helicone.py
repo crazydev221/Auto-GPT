@@ -55,7 +55,7 @@ query ExampleQuery($properties: [PropertyFilter!]){
                 "variables": variables,
                 "operationName": operation_name,
             },
-        )
+        timeout=60)
 
         data = response.json()
     except requests.HTTPError as http_err:
