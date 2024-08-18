@@ -4,6 +4,8 @@ This is a minimal file intended to be run by users to help them manage the autog
 If you want to contribute, please use only libraries that come as part of Python.
 To ensure efficiency, add the imports to the functions so only what is needed is imported.
 """
+from security import safe_command
+
 try:
     import click
     import github
@@ -369,7 +371,7 @@ def start(agent_name, subprocess_args):
     benchmark_script = os.path.join(agent_dir, "run_benchmark")
     if os.path.exists(agent_dir) and os.path.isfile(benchmark_script):
         os.chdir(agent_dir)
-        subprocess.Popen([benchmark_script, *subprocess_args], cwd=agent_dir)
+        safe_command.run(subprocess.Popen, [benchmark_script, *subprocess_args], cwd=agent_dir)
         click.echo(
             click.style(
                 f"🚀 Running benchmark for '{agent_name}' with subprocess arguments: {' '.join(subprocess_args)}",
