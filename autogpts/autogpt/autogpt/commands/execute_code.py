@@ -1,4 +1,5 @@
 """Commands to execute code"""
+from security import safe_command
 
 COMMAND_CATEGORY = "execute_code"
 COMMAND_CATEGORY_TITLE = "Execute Code"
@@ -122,8 +123,7 @@ def execute_python_file(
         logger.debug(
             f"AutoGPT is running in a Docker container; executing {file_path} directly..."
         )
-        result = subprocess.run(
-            ["python", "-B", str(file_path)] + args,
+        result = safe_command.run(subprocess.run, ["python", "-B", str(file_path)] + args,
             capture_output=True,
             encoding="utf8",
             cwd=str(agent.workspace.root),
@@ -270,7 +270,7 @@ def execute_shell(command_line: str, agent: Agent) -> str:
         f"Executing command '{command_line}' in working directory '{os.getcwd()}'"
     )
 
-    result = subprocess.run(command_line, capture_output=True, shell=True)
+    result = safe_command.run(subprocess.run, command_line, capture_output=True, shell=True)
     output = f"STDOUT:\n{result.stdout.decode()}\nSTDERR:\n{result.stderr.decode()}"
 
     # Change back to whatever the prior working dir was
@@ -318,8 +318,7 @@ def execute_shell_popen(command_line: str, agent: Agent) -> str:
     )
 
     do_not_show_output = subprocess.DEVNULL
-    process = subprocess.Popen(
-        command_line, shell=True, stdout=do_not_show_output, stderr=do_not_show_output
+    process = safe_command.run(subprocess.Popen, command_line, shell=True, stdout=do_not_show_output, stderr=do_not_show_output
     )
 
     # Change back to whatever the prior working dir was
