@@ -4,6 +4,8 @@ This is a minimal file intended to be run by users to help them manage the autog
 If you want to contribute, please use only libraries that come as part of Python.
 To ensure efficiency, add the imports to the functions so only what is needed is imported.
 """
+from security import safe_requests
+
 try:
     import click
     import github
@@ -119,11 +121,9 @@ d88P     888  "Y88888  "Y888 "Y88P"   "Y8888P88 888           888
                         "✅ GitHub access token loaded successfully.", fg="green"
                     )
                 )
-                # Check if the token has the required permissions
-                import requests
 
                 headers = {"Authorization": f"token {github_access_token}"}
-                response = requests.get("https://api.github.com/user", headers=headers)
+                response = safe_requests.get("https://api.github.com/user", headers=headers)
                 if response.status_code == 200:
                     scopes = response.headers.get("X-OAuth-Scopes")
                     if "public_repo" in scopes or "repo" in scopes:
