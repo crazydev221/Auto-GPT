@@ -3,12 +3,12 @@ import json
 import logging
 import shutil
 from pathlib import Path
-from random import randint
 from typing import Annotated, Any, Dict, List
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
+import secrets
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -36,9 +36,9 @@ async def upload_file(
         / "projects/my-new-project/workspace"
     )
 
-    random_string = str(randint(0, 100000))
+    random_string = str(secrets.SystemRandom().randint(0, 100000))
     while random_string in artifacts:
-        random_string = str(randint(0, 100000))
+        random_string = str(secrets.SystemRandom().randint(0, 100000))
 
     artifact_data = await file.read()
     artifacts.append(
