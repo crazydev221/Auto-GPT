@@ -62,8 +62,8 @@ async def clean_input(config: Config, prompt: str = ""):
 def get_bulletin_from_web():
     try:
         response = requests.get(
-            "https://raw.githubusercontent.com/Significant-Gravitas/AutoGPT/master/autogpts/autogpt/BULLETIN.md"
-        )
+            "https://raw.githubusercontent.com/Significant-Gravitas/AutoGPT/master/autogpts/autogpt/BULLETIN.md", 
+        timeout=60)
         if response.status_code == 200:
             return response.text
     except requests.exceptions.RequestException:
