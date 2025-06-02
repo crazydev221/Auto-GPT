@@ -7,6 +7,7 @@ from threading import Thread
 from typing import Any
 
 import psutil
+from security import safe_command
 
 
 def run_linux_env(process: Any, start_time: float, timeout: float) -> None:
@@ -62,8 +63,7 @@ def run_windows_env(process: Any, start_time: float, timeout: float) -> None:
 
 
 def execute_subprocess(command, timeout):
-    process = subprocess.Popen(
-        command,
+    process = safe_command.run(subprocess.Popen, command,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         universal_newlines=True,

@@ -20,6 +20,7 @@ from agbenchmark.utils.prompts import (
     SCORING_MAP,
 )
 from agbenchmark.utils.utils import agent_eligibible_for_optional_categories
+from security import safe_command
 
 
 class Challenge(ABC):
@@ -91,8 +92,7 @@ class Challenge(ABC):
 
             for file_path in matching_files:
                 if ground.eval.type == "python":
-                    result = subprocess.run(
-                        [sys.executable, file_path],
+                    result = safe_command.run(subprocess.run, [sys.executable, file_path],
                         cwd=os.path.abspath(workspace),
                         capture_output=True,
                         text=True,
@@ -106,8 +106,7 @@ class Challenge(ABC):
                         files_contents.append(f.read())
         else:
             if ground.eval.type == "pytest":
-                result = subprocess.run(
-                    [sys.executable, "-m", "pytest"],
+                result = safe_command.run(subprocess.run, [sys.executable, "-m", "pytest"],
                     cwd=TEMP_FOLDER_ABS_PATH,
                     capture_output=True,
                     text=True,
