@@ -2,13 +2,13 @@ from __future__ import annotations
 
 import json
 import logging
-import random
 import re
 import time
 from typing import TYPE_CHECKING
 
 from autogpt.logs.utils import remove_color_codes
 from autogpt.speech import TextToSpeechProvider
+import secrets
 
 if TYPE_CHECKING:
     from autogpt.speech import TTSConfig
@@ -38,7 +38,7 @@ class TypingConsoleHandler(logging.StreamHandler):
                     self.flush()
                     break
 
-                interval = random.uniform(min_typing_interval, max_typing_interval)
+                interval = secrets.SystemRandom().uniform(min_typing_interval, max_typing_interval)
                 # type faster after each word
                 min_typing_interval = min_typing_interval * 0.95
                 max_typing_interval = max_typing_interval * 0.95
