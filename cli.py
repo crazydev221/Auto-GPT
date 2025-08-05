@@ -123,7 +123,7 @@ d88P     888  "Y88888  "Y888 "Y88P"   "Y8888P88 888           888
                 import requests
 
                 headers = {"Authorization": f"token {github_access_token}"}
-                response = requests.get("https://api.github.com/user", headers=headers)
+                response = requests.get("https://api.github.com/user", headers=headers, timeout=60)
                 if response.status_code == 200:
                     scopes = response.headers.get("X-OAuth-Scopes")
                     if "public_repo" in scopes or "repo" in scopes:
